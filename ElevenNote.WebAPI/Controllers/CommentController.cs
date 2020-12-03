@@ -10,56 +10,55 @@ using System.Web.Http;
 
 namespace ElevenNote.WebAPI.Controllers
 {
-    [Authorize]
-    public class NoteController : ApiController
+    public class CommentController : ApiController
     {
-        private NoteService CreateNoteService()
+        private CommentService CreateCommentService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());
-            var noteService = new NoteService(userId);
-            return noteService;
+            var commentService = new CommentService(userId);
+            return commentService;
         }
         public IHttpActionResult Get()
         {
-            NoteService noteService = CreateNoteService();
-            var notes = noteService.GetNotes();
-            return Ok(notes);
+            CommentService commentService = CreateCommentService();
+            var comments = commentService.GetComments();
+            return Ok(comments);
         }
-        public IHttpActionResult Post(NoteCreate note)
+        public IHttpActionResult Post(CommentDetail comment)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var service = CreateNoteService();
+            var service = CreateCommentService();
 
-            if (!service.CreateNote(note))
+            if (!service.CreateComment(comment))
                 return InternalServerError();
 
             return Ok();
         }
         public IHttpActionResult Get(int id)
         {
-            NoteService noteService = CreateNoteService();
-            var note = noteService.GetNoteById(id);
-            return Ok(note);
+            CommentService commentService = CreateCommentService();
+            var comment = commentService.GetCommentById(id);
+            return Ok(comment);
         }
 
-        public IHttpActionResult Put(NoteEdit note)
+        public IHttpActionResult Put(CommentDetail comment)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var service = CreateNoteService();
+            var service = CreateCommentService();
 
-            if (!service.UpdateNote(note))
+            if (!service.UpdateComment(comment))
                 return InternalServerError();
             return Ok();
         }
 
         public IHttpActionResult Delete(int id)
         {
-            var service = CreateNoteService();
+            var service = CreateCommentService();
 
-            if (!service.DeleteNote(id))
+            if (!service.DeleteComment(id))
                 return InternalServerError();
             return Ok();
         }

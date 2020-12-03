@@ -34,6 +34,8 @@ namespace ElevenNote.Data
         }
 
         public DbSet<Note> Notes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Note_Comment> Note_Comments { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
@@ -44,6 +46,7 @@ namespace ElevenNote.Data
                     .Configurations
                     .Add(new IdentityUserLoginConfiguration())
                     .Add(new IdentityUserRoleConfiguration());
+
         }
     }
     public class IdentityUserLoginConfiguration : EntityTypeConfiguration<IdentityUserLogin>
